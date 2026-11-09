@@ -1,0 +1,9 @@
+TindaTrack Sample Database (Sari-sari Store)
+
+"Products: 35 items, 3 owners, 11 categories. Status is a formula: Out of Stock if Quantity = 0, Low Stock if Quantity <= Reorder Level, else In Stock."
+Picture: an emoji placeholder. The app shows it as the product picture until a real photo is uploaded.
+QR Value: unique code per product (TT-000001...). The app encodes this value into each QR code.
+"Expiry Date: blank for non-perishable items. Several items expire within 30 days of Nov 6, 2026 for testing the 'Expiring soon' list."
+"Sales: 14 days of sample sales (Oct 24 - Nov 6, 2026) for the sales trend and top-seller charts."
+Utang: sample customer credit records with partial payments.
+"All names, prices and records are fictional sample data for a school prototype. Prices are approximate."

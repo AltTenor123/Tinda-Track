@@ -1,0 +1,6 @@
+{
+  "name": "Tinda Track",
+  "description": "Offline-first inventory and sales tracker for Philippine sari-sari stores with QR scanning, utang tracking, and analytics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

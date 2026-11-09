@@ -1,0 +1,237 @@
+-- TindaDatabase.sq
+-- SQLDelight Schema for Tinda Track (Sari-Sari Store Management)
+
+CREATE TABLE products (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    owner TEXT NOT NULL,
+    category TEXT NOT NULL,
+    supplier TEXT NOT NULL,
+    sku TEXT NOT NULL,
+    qr_code TEXT NOT NULL UNIQUE,
+    cost_price INTEGER NOT NULL,
+    selling_price INTEGER NOT NULL,
+    quantity INTEGER NOT NULL,
+    reorder_level INTEGER NOT NULL,
+    expiry_date TEXT,
+    photo_path TEXT,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+);
+
+CREATE TABLE stock_movements (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    product_id INTEGER NOT NULL,
+    type TEXT NOT NULL,
+    delta INTEGER NOT NULL,
+    reason TEXT NOT NULL,
+    created_at TEXT NOT NULL,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+);
+
+CREATE TABLE sales (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    receipt_no TEXT NOT NULL UNIQUE,
+    created_at TEXT NOT NULL,
+    cashier TEXT NOT NULL,
+    total INTEGER NOT NULL,
+    cash_received INTEGER NOT NULL,
+    change INTEGER NOT NULL,
+    estimated_profit INTEGER NOT NULL
+);
+
+CREATE TABLE sale_items (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    sale_id INTEGER NOT NULL,
+    product_id INTEGER NOT NULL,
+    product_name TEXT NOT NULL,
+    quantity INTEGER NOT NULL,
+    unit_price INTEGER NOT NULL,
+    unit_cost INTEGER NOT NULL,
+    FOREIGN KEY (sale_id) REFERENCES sales(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES products(id)
+);
+
+CREATE TABLE utang (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    customer_name TEXT NOT NULL,
+    items_note TEXT NOT NULL,
+    amount INTEGER NOT NULL,
+    paid INTEGER NOT NULL,
+    status TEXT NOT NULL,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+);
+
+CREATE TABLE utang_payments (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    utang_id INTEGER NOT NULL,
+    amount INTEGER NOT NULL,
+    created_at TEXT NOT NULL,
+    FOREIGN KEY (utang_id) REFERENCES utang(id) ON DELETE CASCADE
+);
+
+CREATE TABLE settings (
+    key TEXT NOT NULL PRIMARY KEY,
+    value TEXT NOT NULL
+);
+
+-- Queries for Products
+selectAllProducts:
+SELECT * FROM products ORDER BY name ASC;
+
+selectProductById:
+SELECT * FROM products WHERE id = :id;
+
+selectProductByQr:
+SELECT * FROM products WHERE qr_code = :qr_code OR sku = :qr_code LIMIT 1;
+
+searchProducts:
+SELECT * FROM products
+WHERE name LIKE ('%' || :query || '%')
+   OR sku LIKE ('%' || :query || '%')
+   OR qr_code LIKE ('%' || :query || '%')
+   OR category LIKE ('%' || :query || '%')
+   OR owner LIKE ('%' || :query || '%')
+   OR supplier LIKE ('%' || :query || '%')
+ORDER BY name ASC;
+
+insertProduct:
+INSERT INTO products (
+    name, owner, category, supplier, sku, qr_code,
+    cost_price, selling_price, quantity, reorder_level,
+    expiry_date, photo_path, created_at, updated_at
+) VALUES (
+    :name, :owner, :category, :supplier, :sku, :qr_code,
+    :cost_price, :selling_price, :quantity, :reorder_level,
+    :expiry_date, :photo_path, :created_at, :updated_at
+);
+
+updateProduct:
+UPDATE products SET
+    name = :name,
+    owner = :owner,
+    category = :category,
+    supplier = :supplier,
+    sku = :sku,
+    qr_code = :qr_code,
+    cost_price = :cost_price,
+    selling_price = :selling_price,
+    quantity = :quantity,
+    reorder_level = :reorder_level,
+    expiry_date = :expiry_date,
+    photo_path = :photo_path,
+    updated_at = :updated_at
+WHERE id = :id;
+
+updateProductStock:
+UPDATE products SET
+    quantity = quantity + :delta,
+    updated_at = :updated_at
+WHERE id = :id;
+
+setExactProductStock:
+UPDATE products SET
+    quantity = :quantity,
+    updated_at = :updated_at
+WHERE id = :id;
+
+deleteProduct:
+DELETE FROM products WHERE id = :id;
+
+countProducts:
+SELECT COUNT(*) FROM products;
+
+getMaxProductId:
+SELECT MAX(id) FROM products;
+
+-- Queries for Stock Movements
+selectMovementsForProduct:
+SELECT * FROM stock_movements WHERE product_id = :product_id ORDER BY id DESC;
+
+selectAllMovements:
+SELECT * FROM stock_movements ORDER BY id DESC LIMIT :limit;
+
+insertStockMovement:
+INSERT INTO stock_movements (product_id, type, delta, reason, created_at)
+VALUES (:product_id, :type, :delta, :reason, :created_at);
+
+-- Queries for Sales
+selectAllSales:
+SELECT * FROM sales ORDER BY id DESC;
+
+selectSaleById:
+SELECT * FROM sales WHERE id = :id;
+
+selectSalesBetweenDates:
+SELECT * FROM sales WHERE created_at >= :startDate AND created_at <= :endDate ORDER BY id DESC;
+
+insertSale:
+INSERT INTO sales (receipt_no, created_at, cashier, total, cash_received, change, estimated_profit)
+VALUES (:receipt_no, :created_at, :cashier, :total, :cash_received, :change, :estimated_profit);
+
+lastInsertedSaleId:
+SELECT last_insert_rowid();
+
+-- Queries for Sale Items
+selectSaleItemsForSale:
+SELECT * FROM sale_items WHERE sale_id = :sale_id;
+
+insertSaleItem:
+INSERT INTO sale_items (sale_id, product_id, product_name, quantity, unit_price, unit_cost)
+VALUES (:sale_id, :product_id, :product_name, :quantity, :unit_price, :unit_cost);
+
+-- Queries for Utang (Customer Credit)
+selectAllUtang:
+SELECT * FROM utang ORDER BY CASE status WHEN 'Unpaid' THEN 1 WHEN 'Partial' THEN 2 ELSE 3 END, id DESC;
+
+selectUtangById:
+SELECT * FROM utang WHERE id = :id;
+
+insertUtang:
+INSERT INTO utang (customer_name, items_note, amount, paid, status, created_at, updated_at)
+VALUES (:customer_name, :items_note, :amount, :paid, :status, :created_at, :updated_at);
+
+updateUtangPaymentStatus:
+UPDATE utang SET
+    paid = :paid,
+    status = :status,
+    updated_at = :updated_at
+WHERE id = :id;
+
+deleteUtang:
+DELETE FROM utang WHERE id = :id;
+
+-- Queries for Utang Payments
+selectPaymentsForUtang:
+SELECT * FROM utang_payments WHERE utang_id = :utang_id ORDER BY id DESC;
+
+insertUtangPayment:
+INSERT INTO utang_payments (utang_id, amount, created_at)
+VALUES (:utang_id, :amount, :created_at);
+
+-- Queries for Settings
+getSetting:
+SELECT value FROM settings WHERE key = :key;
+
+setSetting:
+INSERT OR REPLACE INTO settings (key, value) VALUES (:key, :value);
+
+-- Clear all data (for sample data reset)
+clearAllSaleItems:
+DELETE FROM sale_items;
+
+clearAllSales:
+DELETE FROM sales;
+
+clearAllStockMovements:
+DELETE FROM stock_movements;
+
+clearAllProducts:
+DELETE FROM products;
+
+clearAllUtangPayments:
+DELETE FROM utang_payments;
+
+clearAllUtang:
+DELETE FROM utang;
