@@ -1,6 +1,7 @@
 package com.example.ui.screens.home
 
 import androidx.compose.animation.*
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -11,6 +12,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ReceiptLong
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -419,7 +421,7 @@ fun HomeScreen(
                 if (uiState.recentSales.isEmpty()) {
                     item {
                         EmptyStateView(
-                            icon = Icons.Default.ReceiptLong,
+                            icon = Icons.AutoMirrored.Filled.ReceiptLong,
                             title = "No sales yet today",
                             description = "Scan items or use the cart to record your first transaction."
                         )
@@ -427,12 +429,11 @@ fun HomeScreen(
                 } else {
                     items(uiState.recentSales) { sale ->
                         Surface(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable(onClick = onNavigateToSales)
-                                .border(1.dp, colors.cardBorder, RoundedCornerShape(16.dp)),
+                            onClick = onNavigateToSales,
+                            modifier = Modifier.fillMaxWidth(),
                             shape = RoundedCornerShape(16.dp),
                             color = colors.cardCream,
+                            border = BorderStroke(1.dp, colors.cardBorder),
                             shadowElevation = 1.dp
                         ) {
                             Row(
@@ -525,16 +526,15 @@ private fun ActionCard(
 ) {
     val colors = LocalTindaColors.current
     Surface(
-        modifier = modifier
-            .clip(RoundedCornerShape(16.dp))
-            .clickable(onClick = onClick)
-            .border(1.dp, colors.cardBorder, RoundedCornerShape(16.dp)),
-        shape = RoundedCornerShape(16.dp),
+        onClick = onClick,
+        modifier = modifier,
+        shape = RoundedCornerShape(18.dp),
         color = colors.cardCream,
+        border = BorderStroke(1.dp, colors.cardBorder),
         shadowElevation = 1.dp
     ) {
         Column(
-            modifier = Modifier.padding(vertical = 14.dp, horizontal = 8.dp),
+            modifier = Modifier.padding(vertical = 14.dp, horizontal = 10.dp),
             verticalArrangement = Arrangement.spacedBy(6.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -554,14 +554,14 @@ private fun ActionCard(
             }
             Text(
                 text = title,
-                fontSize = 13.sp,
+                style = TindaTypography.labelMedium,
                 fontWeight = FontWeight.Bold,
                 color = colors.ink,
                 maxLines = 1
             )
             Text(
                 text = subtitle,
-                fontSize = 11.sp,
+                style = TindaTypography.bodySmall,
                 color = colors.muted,
                 maxLines = 1
             )
@@ -580,12 +580,11 @@ private fun QuickAlertPill(
     modifier: Modifier = Modifier
 ) {
     Surface(
-        modifier = modifier
-            .clip(RoundedCornerShape(100.dp))
-            .clickable(onClick = onClick)
-            .border(1.dp, borderColor, RoundedCornerShape(100.dp)),
+        onClick = onClick,
+        modifier = modifier,
         shape = RoundedCornerShape(100.dp),
-        color = backgroundColor
+        color = backgroundColor,
+        border = BorderStroke(1.dp, borderColor)
     ) {
         Row(
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),

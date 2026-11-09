@@ -2,6 +2,7 @@ package com.example.ui
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.*
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -265,16 +266,11 @@ fun TindaBottomNavBar(
     val colors = LocalTindaColors.current
 
     Surface(
-        modifier = modifier
-            .fillMaxWidth()
-            .shadow(12.dp, RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
-            .border(
-                1.dp,
-                colors.cardBorder,
-                RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
-            ),
+        modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
-        color = colors.cardCream
+        color = colors.cardCream,
+        border = BorderStroke(1.dp, colors.cardBorder),
+        shadowElevation = 8.dp
     ) {
         Row(
             modifier = Modifier

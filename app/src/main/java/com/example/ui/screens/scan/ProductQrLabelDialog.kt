@@ -105,7 +105,7 @@ fun ProductQrLabelDialog(
                             letterSpacing = 1.sp
                         )
 
-                        Divider(color = SageSoft, thickness = 1.dp)
+                        HorizontalDivider(color = SageSoft, thickness = 1.dp)
 
                         // QR Code image
                         if (labelBitmap != null) {

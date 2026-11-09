@@ -1,12 +1,12 @@
 package com.example.ui.components
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -30,30 +30,32 @@ fun StatusBadge(
     borderColor: Color? = null,
     modifier: Modifier = Modifier
 ) {
-    val borderModifier = if (borderColor != null) {
-        Modifier.border(1.dp, borderColor, RoundedCornerShape(100.dp))
-    } else Modifier
+    val stroke = if (borderColor != null) BorderStroke(1.dp, borderColor) else null
 
-    Row(
+    Surface(
+        shape = RoundedCornerShape(100.dp),
+        color = backgroundColor,
+        border = stroke,
         modifier = modifier
-            .background(backgroundColor, RoundedCornerShape(100.dp))
-            .then(borderModifier)
-            .padding(horizontal = 10.dp, vertical = 5.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(5.dp)
     ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = null,
-            tint = textColor,
-            modifier = Modifier.size(13.dp)
-        )
-        Text(
-            text = text,
-            color = textColor,
-            fontSize = 12.sp,
-            fontWeight = FontWeight.SemiBold
-        )
+        Row(
+            modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(5.dp)
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                tint = textColor,
+                modifier = Modifier.size(13.dp)
+            )
+            Text(
+                text = text,
+                color = textColor,
+                fontSize = 11.5.sp,
+                fontWeight = FontWeight.SemiBold
+            )
+        }
     }
 }
 

@@ -1,6 +1,7 @@
 package com.example.ui.screens.utang
 
 import androidx.compose.animation.*
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -237,15 +238,17 @@ private fun UtangRecordCard(
     onRecordPayment: () -> Unit,
     onDelete: () -> Unit
 ) {
+    val colors = LocalTindaColors.current
     var showDeleteConfirm by remember { mutableStateOf(false) }
 
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .border(1.dp, CardBorder, RoundedCornerShape(16.dp))
             .testTag("utang_card_${utang.id}"),
         shape = RoundedCornerShape(16.dp),
-        color = CardCream
+        color = colors.cardCream,
+        border = BorderStroke(1.dp, colors.cardBorder),
+        shadowElevation = 1.dp
     ) {
         Column(
             modifier = Modifier.padding(14.dp),
@@ -262,12 +265,12 @@ private fun UtangRecordCard(
                         text = utang.customerName,
                         style = TindaTypography.titleMedium,
                         fontWeight = FontWeight.Bold,
-                        color = Ink
+                        color = colors.ink
                     )
                     Text(
                         text = utang.createdAt.take(16).replace("T", " "),
                         style = TindaTypography.bodySmall,
-                        color = Muted
+                        color = colors.muted
                     )
                 }
 
@@ -278,13 +281,14 @@ private fun UtangRecordCard(
             if (utang.itemsNote.isNotBlank()) {
                 Surface(
                     shape = RoundedCornerShape(8.dp),
-                    color = Cream,
+                    color = colors.cream,
+                    border = BorderStroke(1.dp, colors.cardBorder.copy(alpha = 0.5f)),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
                         text = utang.itemsNote,
                         style = TindaTypography.bodySmall,
-                        color = Ink,
+                        color = colors.ink,
                         modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp)
                     )
                 }
@@ -297,17 +301,17 @@ private fun UtangRecordCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column {
-                    Text(text = "Total Credit", style = TindaTypography.labelSmall, color = Muted)
+                    Text(text = "Total Credit", style = TindaTypography.labelSmall, color = colors.muted)
                     Text(
                         text = CurrencyHelper.formatCentavos(utang.amount),
                         style = TindaTypography.titleSmall,
                         fontWeight = FontWeight.Bold,
-                        color = Ink
+                        color = colors.ink
                     )
                 }
 
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(text = "Paid", style = TindaTypography.labelSmall, color = Muted)
+                    Text(text = "Paid", style = TindaTypography.labelSmall, color = colors.muted)
                     Text(
                         text = CurrencyHelper.formatCentavos(utang.paid),
                         style = TindaTypography.titleSmall,
@@ -317,7 +321,7 @@ private fun UtangRecordCard(
                 }
 
                 Column(horizontalAlignment = Alignment.End) {
-                    Text(text = "Remaining Balance", style = TindaTypography.labelSmall, color = Muted)
+                    Text(text = "Remaining Balance", style = TindaTypography.labelSmall, color = colors.muted)
                     Text(
                         text = CurrencyHelper.formatCentavos(utang.balance),
                         style = TindaTypography.titleMedium,
@@ -327,7 +331,7 @@ private fun UtangRecordCard(
                 }
             }
 
-            Divider(color = SageSoft, thickness = 1.dp)
+            HorizontalDivider(color = colors.cardBorder, thickness = 1.dp)
 
             // Actions: Record Bayad & Delete
             Row(

@@ -5,6 +5,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.animation.*
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -15,6 +16,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ReceiptLong
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -144,6 +146,7 @@ private fun ReorderListView(
     uiState: MoreUiState,
     context: Context
 ) {
+    val colors = LocalTindaColors.current
     val coroutineScope = rememberCoroutineScope()
     val grandTotalCentavos = uiState.reorderGroups.sumOf { it.totalEstimatedCostCentavos }
 
@@ -223,11 +226,11 @@ private fun ReorderListView(
         } else {
             items(uiState.reorderGroups) { group ->
                 Surface(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .border(1.dp, CardBorder, RoundedCornerShape(16.dp)),
+                    modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
-                    color = CardCream
+                    color = colors.cardCream,
+                    border = BorderStroke(1.dp, colors.cardBorder),
+                    shadowElevation = 1.dp
                 ) {
                     Column(
                         modifier = Modifier.padding(14.dp),
@@ -246,13 +249,13 @@ private fun ReorderListView(
                                     modifier = Modifier
                                         .size(32.dp)
                                         .clip(CircleShape)
-                                        .background(SageSoft),
+                                        .background(colors.sageSoft),
                                     contentAlignment = Alignment.Center
                                 ) {
                                     Icon(
                                         imageVector = Icons.Default.LocalShipping,
                                         contentDescription = null,
-                                        tint = Forest,
+                                        tint = colors.forest,
                                         modifier = Modifier.size(16.dp)
                                     )
                                 }
@@ -260,7 +263,7 @@ private fun ReorderListView(
                                     text = group.supplier,
                                     style = TindaTypography.titleSmall,
                                     fontWeight = FontWeight.Bold,
-                                    color = Ink
+                                    color = colors.ink
                                 )
                             }
 
@@ -268,11 +271,11 @@ private fun ReorderListView(
                                 text = "Subtotal: ${CurrencyHelper.formatCentavos(group.totalEstimatedCostCentavos)}",
                                 style = TindaTypography.labelMedium,
                                 fontWeight = FontWeight.Bold,
-                                color = Forest
+                                color = colors.forest
                             )
                         }
 
-                        Divider(color = SageSoft, thickness = 1.dp)
+                        HorizontalDivider(color = colors.cardBorder, thickness = 1.dp)
 
                         group.items.forEach { item ->
                             Row(
@@ -429,6 +432,7 @@ private fun DataBackupView(
     viewModel: MoreViewModel,
     context: Context
 ) {
+    val colors = LocalTindaColors.current
     var showRestoreConfirm by remember { mutableStateOf(false) }
 
     LazyColumn(
@@ -465,7 +469,7 @@ private fun DataBackupView(
             BackupActionCard(
                 title = "Export Sales History",
                 description = "Download transactions CSV (Receipts, Totals, Profits, Cashiers)",
-                icon = Icons.Default.ReceiptLong,
+                icon = Icons.AutoMirrored.Filled.ReceiptLong,
                 buttonText = "Export Sales CSV",
                 onClick = { viewModel.exportSales(context) }
             )
@@ -484,11 +488,11 @@ private fun DataBackupView(
         // Restore Sample Data
         item {
             Surface(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .border(1.dp, AmberBorder, RoundedCornerShape(16.dp)),
+                modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
-                color = AmberLight
+                color = if (colors.isDark) colors.sageSoft else AmberLight,
+                border = BorderStroke(1.dp, AmberBorder),
+                shadowElevation = 1.dp
             ) {
                 Column(
                     modifier = Modifier.padding(16.dp),
@@ -498,12 +502,12 @@ private fun DataBackupView(
                         text = "Reset / Restore Sample Sari-Sari Store Data",
                         style = TindaTypography.titleSmall,
                         fontWeight = FontWeight.Bold,
-                        color = Ink
+                        color = colors.ink
                     )
                     Text(
                         text = "Restores 35 realistic Philippine sari-sari items, 50 transactions, and 5 utang records.",
                         style = TindaTypography.bodySmall,
-                        color = Muted
+                        color = colors.muted
                     )
                     Button(
                         onClick = { showRestoreConfirm = true },
@@ -552,12 +556,13 @@ private fun BackupActionCard(
     buttonText: String,
     onClick: () -> Unit
 ) {
+    val colors = LocalTindaColors.current
     Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .border(1.dp, CardBorder, RoundedCornerShape(16.dp)),
+        modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        color = CardCream
+        color = colors.cardCream,
+        border = BorderStroke(1.dp, colors.cardBorder),
+        shadowElevation = 1.dp
     ) {
         Row(
             modifier = Modifier
@@ -575,14 +580,14 @@ private fun BackupActionCard(
                     modifier = Modifier
                         .size(40.dp)
                         .clip(CircleShape)
-                        .background(SageSoft),
+                        .background(colors.sageSoft),
                     contentAlignment = Alignment.Center
                 ) {
-                    Icon(imageVector = icon, contentDescription = null, tint = Forest, modifier = Modifier.size(20.dp))
+                    Icon(imageVector = icon, contentDescription = null, tint = colors.forest, modifier = Modifier.size(20.dp))
                 }
                 Column {
-                    Text(text = title, style = TindaTypography.titleSmall, color = Ink)
-                    Text(text = description, style = TindaTypography.bodySmall, color = Muted)
+                    Text(text = title, style = TindaTypography.titleSmall, color = colors.ink)
+                    Text(text = description, style = TindaTypography.bodySmall, color = colors.muted)
                 }
             }
 
@@ -591,7 +596,7 @@ private fun BackupActionCard(
                 modifier = Modifier
                     .size(40.dp)
                     .clip(CircleShape)
-                    .background(Forest)
+                    .background(colors.forest)
             ) {
                 Icon(imageVector = Icons.Default.Share, contentDescription = buttonText, tint = CreamLight, modifier = Modifier.size(20.dp))
             }
@@ -604,6 +609,7 @@ private fun SettingsView(
     viewModel: MoreViewModel,
     uiState: MoreUiState
 ) {
+    val colors = LocalTindaColors.current
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -614,18 +620,18 @@ private fun SettingsView(
             Text(
                 text = "Store & App Settings",
                 style = TindaTypography.titleMedium,
-                color = Ink
+                color = colors.ink
             )
         }
 
         // App PIN Lock
         item {
             Surface(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .border(1.dp, CardBorder, RoundedCornerShape(16.dp)),
+                modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
-                color = CardCream
+                color = colors.cardCream,
+                border = BorderStroke(1.dp, colors.cardBorder),
+                shadowElevation = 1.dp
             ) {
                 Row(
                     modifier = Modifier
@@ -643,17 +649,17 @@ private fun SettingsView(
                             modifier = Modifier
                                 .size(40.dp)
                                 .clip(CircleShape)
-                                .background(SageSoft),
+                                .background(colors.sageSoft),
                             contentAlignment = Alignment.Center
                         ) {
-                            Icon(imageVector = Icons.Default.Lock, contentDescription = null, tint = Forest, modifier = Modifier.size(20.dp))
+                            Icon(imageVector = Icons.Default.Lock, contentDescription = null, tint = colors.forest, modifier = Modifier.size(20.dp))
                         }
                         Column {
-                            Text(text = "App Passcode Lock", style = TindaTypography.titleSmall, color = Ink)
+                            Text(text = "App Passcode Lock", style = TindaTypography.titleSmall, color = colors.ink)
                             Text(
                                 text = "Auto-locks after 15 minutes in background (Default PIN: 1234)",
                                 style = TindaTypography.bodySmall,
-                                color = Muted
+                                color = colors.muted
                             )
                         }
                     }
@@ -661,7 +667,7 @@ private fun SettingsView(
                     Switch(
                         checked = uiState.isPasscodeEnabled,
                         onCheckedChange = { viewModel.togglePasscode(it) },
-                        colors = SwitchDefaults.colors(checkedThumbColor = Forest, checkedTrackColor = SageSoft)
+                        colors = SwitchDefaults.colors(checkedThumbColor = colors.forest, checkedTrackColor = colors.sageSoft)
                     )
                 }
             }
@@ -670,17 +676,17 @@ private fun SettingsView(
         // Theme Setting
         item {
             Surface(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .border(1.dp, CardBorder, RoundedCornerShape(16.dp)),
+                modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
-                color = CardCream
+                color = colors.cardCream,
+                border = BorderStroke(1.dp, colors.cardBorder),
+                shadowElevation = 1.dp
             ) {
                 Column(
                     modifier = Modifier.padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    Text(text = "Appearance Theme", style = TindaTypography.titleSmall, color = Ink)
+                    Text(text = "Appearance Theme", style = TindaTypography.titleSmall, color = colors.ink)
 
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -712,11 +718,11 @@ private fun SettingsView(
         // About Tinda Track
         item {
             Surface(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .border(1.dp, CardBorder, RoundedCornerShape(16.dp)),
+                modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
-                color = CardCream
+                color = colors.cardCream,
+                border = BorderStroke(1.dp, colors.cardBorder),
+                shadowElevation = 1.dp
             ) {
                 Column(
                     modifier = Modifier.padding(16.dp),
@@ -726,14 +732,14 @@ private fun SettingsView(
                         text = "About Tinda Track",
                         style = TindaTypography.titleSmall,
                         fontWeight = FontWeight.Bold,
-                        color = Ink
+                        color = colors.ink
                     )
                     Text(
                         text = "Tinda Track is an offline-first inventory, QR scanner, and sales tracker tailor-made for Philippine sari-sari stores.",
                         style = TindaTypography.bodySmall,
-                        color = Muted
+                        color = colors.muted
                     )
-                    Divider(color = SageSoft, thickness = 1.dp)
+                    HorizontalDivider(color = colors.cardBorder, thickness = 1.dp)
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween

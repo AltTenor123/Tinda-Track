@@ -2,6 +2,7 @@ package com.example.ui.screens.sales
 
 import android.content.Context
 import android.content.Intent
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -95,10 +96,11 @@ fun ReceiptDialog(
                 Surface(
                     modifier = Modifier
                         .weight(1f)
-                        .fillMaxWidth()
-                        .border(1.dp, CardBorder, RoundedCornerShape(16.dp)),
+                        .fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
-                    color = Color.White
+                    color = Color.White,
+                    border = BorderStroke(1.dp, CardBorder),
+                    shadowElevation = 2.dp
                 ) {
                     LazyColumn(
                         modifier = Modifier
@@ -140,7 +142,7 @@ fun ReceiptDialog(
                                     fontFamily = FontFamily.Monospace,
                                     color = Muted
                                 )
-                                Divider(
+                                HorizontalDivider(
                                     modifier = Modifier.padding(vertical = 8.dp),
                                     color = SageSoft,
                                     thickness = 1.dp
@@ -188,7 +190,7 @@ fun ReceiptDialog(
                                     .padding(top = 10.dp),
                                 verticalArrangement = Arrangement.spacedBy(6.dp)
                             ) {
-                                Divider(color = SageSoft, thickness = 1.dp)
+                                HorizontalDivider(color = SageSoft, thickness = 1.dp)
 
                                 ReceiptTotalLine(
                                     label = "TOTAL AMOUNT:",
@@ -213,7 +215,7 @@ fun ReceiptDialog(
                                     valueColor = if (sale.change > 0) SageDeep else Ink
                                 )
 
-                                Divider(
+                                HorizontalDivider(
                                     modifier = Modifier.padding(vertical = 4.dp),
                                     color = SageSoft,
                                     thickness = 1.dp

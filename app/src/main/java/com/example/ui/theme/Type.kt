@@ -11,125 +11,132 @@ import com.example.R
 
 // Custom Font Families bundled locally
 val FrauncesFontFamily = FontFamily(
-    Font(R.font.fraunces, FontWeight.Normal),
-    Font(R.font.fraunces, FontWeight.SemiBold),
-    Font(R.font.fraunces, FontWeight.Bold)
+    Font(R.font.fraunces, FontWeight.Normal)
 )
 
-val DmSansFontFamily = FontFamily(
-    Font(R.font.dm_sans, FontWeight.Normal),
-    Font(R.font.dm_sans, FontWeight.Medium),
-    Font(R.font.dm_sans, FontWeight.Bold)
+val PlusJakartaSansFontFamily = FontFamily(
+    Font(R.font.plus_jakarta_sans, FontWeight.Normal)
 )
 
-// Complete Material 3 Typography Scale for Tinda Track
+// Alias for backwards compatibility with existing UI components
+val DmSansFontFamily = PlusJakartaSansFontFamily
+
+// Refined, high-legibility Material 3 Typography Scale for Tinda Track
 // Note: Colors are left Unspecified so components automatically inherit LocalContentColor
 val TindaTypography = Typography(
     displayLarge = TextStyle(
         fontFamily = FrauncesFontFamily,
         fontWeight = FontWeight.Bold,
-        fontSize = 40.sp,
-        lineHeight = 48.sp,
+        fontSize = 38.sp,
+        lineHeight = 46.sp,
         letterSpacing = (-0.5).sp,
         color = Color.Unspecified
     ),
     displayMedium = TextStyle(
         fontFamily = FrauncesFontFamily,
         fontWeight = FontWeight.Bold,
-        fontSize = 32.sp,
-        lineHeight = 38.sp,
+        fontSize = 30.sp,
+        lineHeight = 36.sp,
         letterSpacing = (-0.25).sp,
         color = Color.Unspecified
     ),
     displaySmall = TextStyle(
         fontFamily = FrauncesFontFamily,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 28.sp,
-        lineHeight = 34.sp,
+        fontSize = 26.sp,
+        lineHeight = 32.sp,
         color = Color.Unspecified
     ),
     headlineLarge = TextStyle(
         fontFamily = FrauncesFontFamily,
         fontWeight = FontWeight.Bold,
-        fontSize = 26.sp,
-        lineHeight = 32.sp,
+        fontSize = 24.sp,
+        lineHeight = 30.sp,
+        letterSpacing = (-0.2).sp,
         color = Color.Unspecified
     ),
     headlineMedium = TextStyle(
         fontFamily = FrauncesFontFamily,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
+        fontSize = 20.sp,
+        lineHeight = 26.sp,
         color = Color.Unspecified
     ),
     headlineSmall = TextStyle(
         fontFamily = FrauncesFontFamily,
         fontWeight = FontWeight.Medium,
-        fontSize = 20.sp,
-        lineHeight = 26.sp,
-        color = Color.Unspecified
-    ),
-    titleLarge = TextStyle(
-        fontFamily = FrauncesFontFamily,
-        fontWeight = FontWeight.SemiBold,
         fontSize = 18.sp,
         lineHeight = 24.sp,
         color = Color.Unspecified
     ),
-    titleMedium = TextStyle(
-        fontFamily = DmSansFontFamily,
+    titleLarge = TextStyle(
+        fontFamily = PlusJakartaSansFontFamily,
         fontWeight = FontWeight.Bold,
+        fontSize = 18.sp,
+        lineHeight = 24.sp,
+        letterSpacing = (-0.15).sp,
+        color = Color.Unspecified
+    ),
+    titleMedium = TextStyle(
+        fontFamily = PlusJakartaSansFontFamily,
+        fontWeight = FontWeight.SemiBold,
         fontSize = 16.sp,
         lineHeight = 22.sp,
+        letterSpacing = (-0.1).sp,
         color = Color.Unspecified
     ),
     titleSmall = TextStyle(
-        fontFamily = DmSansFontFamily,
+        fontFamily = PlusJakartaSansFontFamily,
         fontWeight = FontWeight.SemiBold,
         fontSize = 14.sp,
         lineHeight = 20.sp,
+        letterSpacing = 0.1.sp,
         color = Color.Unspecified
     ),
     bodyLarge = TextStyle(
-        fontFamily = DmSansFontFamily,
+        fontFamily = PlusJakartaSansFontFamily,
         fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
+        fontSize = 15.sp,
+        lineHeight = 22.sp,
+        letterSpacing = 0.15.sp,
         color = Color.Unspecified
     ),
     bodyMedium = TextStyle(
-        fontFamily = DmSansFontFamily,
+        fontFamily = PlusJakartaSansFontFamily,
         fontWeight = FontWeight.Normal,
-        fontSize = 14.sp,
-        lineHeight = 20.sp,
+        fontSize = 13.5.sp,
+        lineHeight = 19.sp,
+        letterSpacing = 0.2.sp,
         color = Color.Unspecified
     ),
     bodySmall = TextStyle(
-        fontFamily = DmSansFontFamily,
+        fontFamily = PlusJakartaSansFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp,
         lineHeight = 16.sp,
+        letterSpacing = 0.25.sp,
         color = Color.Unspecified
     ),
     labelLarge = TextStyle(
-        fontFamily = DmSansFontFamily,
+        fontFamily = PlusJakartaSansFontFamily,
         fontWeight = FontWeight.Bold,
-        fontSize = 14.sp,
-        lineHeight = 20.sp,
+        fontSize = 13.5.sp,
+        lineHeight = 18.sp,
+        letterSpacing = 0.2.sp,
         color = Color.Unspecified
     ),
     labelMedium = TextStyle(
-        fontFamily = DmSansFontFamily,
+        fontFamily = PlusJakartaSansFontFamily,
         fontWeight = FontWeight.SemiBold,
         fontSize = 12.sp,
         lineHeight = 16.sp,
-        letterSpacing = 0.5.sp,
+        letterSpacing = 0.35.sp,
         color = Color.Unspecified
     ),
     labelSmall = TextStyle(
-        fontFamily = DmSansFontFamily,
+        fontFamily = PlusJakartaSansFontFamily,
         fontWeight = FontWeight.Medium,
-        fontSize = 11.sp,
+        fontSize = 10.5.sp,
         lineHeight = 14.sp,
         letterSpacing = 0.5.sp,
         color = Color.Unspecified

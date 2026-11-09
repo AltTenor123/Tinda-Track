@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import com.example.ui.theme.FrauncesFontFamily
 import com.example.ui.theme.LocalTindaColors
+import com.example.ui.theme.PlusJakartaSansFontFamily
 
 @Composable
 fun CurrencyText(
@@ -26,6 +27,8 @@ fun CurrencyText(
     val pesosFormatted = "%,d".format(pesos)
     val centavosFormatted = "%02d".format(remainder)
 
+    val targetFontFamily = if (useSerif) FrauncesFontFamily else PlusJakartaSansFontFamily
+
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.Bottom
@@ -33,23 +36,23 @@ fun CurrencyText(
         Text(
             text = "₱",
             color = color,
-            fontSize = fontSize * 0.85f,
+            fontSize = fontSize * 0.82f,
             fontWeight = fontWeight,
-            fontFamily = if (useSerif) FrauncesFontFamily else null
+            fontFamily = targetFontFamily
         )
         Text(
             text = pesosFormatted,
             color = color,
             fontSize = fontSize,
             fontWeight = fontWeight,
-            fontFamily = if (useSerif) FrauncesFontFamily else null
+            fontFamily = targetFontFamily
         )
         Text(
             text = ".$centavosFormatted",
             color = color.copy(alpha = 0.85f),
-            fontSize = fontSize * 0.75f,
+            fontSize = fontSize * 0.72f,
             fontWeight = fontWeight,
-            fontFamily = if (useSerif) FrauncesFontFamily else null
+            fontFamily = targetFontFamily
         )
     }
 }

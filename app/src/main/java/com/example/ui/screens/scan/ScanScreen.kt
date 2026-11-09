@@ -1,6 +1,7 @@
 package com.example.ui.screens.scan
 
 import androidx.compose.animation.*
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -10,6 +11,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.automirrored.filled.HelpOutline
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -213,7 +216,7 @@ fun ScanScreen(
                                     fontWeight = FontWeight.Bold
                                 )
                                 Icon(
-                                    imageVector = Icons.Default.ArrowForward,
+                                    imageVector = Icons.AutoMirrored.Filled.ArrowForward,
                                     contentDescription = null,
                                     tint = CreamLight,
                                     modifier = Modifier.size(16.dp)
@@ -227,7 +230,8 @@ fun ScanScreen(
                 Surface(
                     shape = RoundedCornerShape(20.dp),
                     color = CardCream.copy(alpha = 0.95f),
-                    shadowElevation = 4.dp,
+                    border = BorderStroke(1.dp, CardBorder),
+                    shadowElevation = 3.dp,
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Row(
@@ -313,7 +317,7 @@ fun ScanScreen(
                     StockStatusBadge(status = product.status)
                 }
 
-                Divider(color = CardBorder)
+                HorizontalDivider(color = CardBorder, thickness = 1.dp)
 
                 // Key Info Row
                 Row(
@@ -422,7 +426,7 @@ fun ScanScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
-                        imageVector = Icons.Default.HelpOutline,
+                        imageVector = Icons.AutoMirrored.Filled.HelpOutline,
                         contentDescription = null,
                         tint = AccentGold,
                         modifier = Modifier.size(32.dp)

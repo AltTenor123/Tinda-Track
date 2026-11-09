@@ -141,7 +141,7 @@ fun RecordPaymentDialog(
                         }
 
                         if (utang.itemsNote.isNotBlank()) {
-                            Divider(color = CardBorder, thickness = 1.dp)
+                            HorizontalDivider(color = CardBorder, thickness = 1.dp)
                             Text(
                                 text = "Items: ${utang.itemsNote}",
                                 style = TindaTypography.bodySmall,

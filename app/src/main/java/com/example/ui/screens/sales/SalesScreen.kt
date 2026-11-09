@@ -1,6 +1,7 @@
 package com.example.ui.screens.sales
 
 import androidx.compose.animation.*
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -10,6 +11,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ReceiptLong
+import androidx.compose.material.icons.automirrored.filled.TrendingUp
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -143,7 +146,7 @@ fun SalesScreen(
                     badgeBgColor = SageSoft,
                     icon = {
                         Icon(
-                            imageVector = Icons.Default.ReceiptLong,
+                            imageVector = Icons.AutoMirrored.Filled.ReceiptLong,
                             contentDescription = null,
                             tint = Forest,
                             modifier = Modifier.size(18.dp)
@@ -185,7 +188,7 @@ fun SalesScreen(
                         badgeBgColor = SuccessGreenLight,
                         icon = {
                             Icon(
-                                imageVector = Icons.Default.TrendingUp,
+                                imageVector = Icons.AutoMirrored.Filled.TrendingUp,
                                 contentDescription = null,
                                 tint = Forest,
                                 modifier = Modifier.size(18.dp)
@@ -200,7 +203,7 @@ fun SalesScreen(
             if (uiState.filteredSales.isEmpty() && !uiState.isLoading) {
                 item {
                     EmptyStateView(
-                        icon = Icons.Default.ReceiptLong,
+                        icon = Icons.AutoMirrored.Filled.ReceiptLong,
                         title = "No Sales Found",
                         description = if (uiState.searchQuery.isNotBlank()) "No transactions match \"${uiState.searchQuery}\"" else "No sales recorded yet. Sell items via the Scan tab or Cart!"
                     )
@@ -263,14 +266,16 @@ private fun SaleItemCard(
     sale: Sale,
     onClick: () -> Unit
 ) {
+    val colors = LocalTindaColors.current
     Surface(
+        onClick = onClick,
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick)
-            .border(1.dp, CardBorder, RoundedCornerShape(16.dp))
             .testTag("sale_card_${sale.receiptNo}"),
         shape = RoundedCornerShape(16.dp),
-        color = CardCream
+        color = colors.cardCream,
+        border = BorderStroke(1.dp, colors.cardBorder),
+        shadowElevation = 1.dp
     ) {
         Column(
             modifier = Modifier.padding(14.dp),
@@ -290,13 +295,13 @@ private fun SaleItemCard(
                         modifier = Modifier
                             .size(36.dp)
                             .clip(CircleShape)
-                            .background(SageSoft),
+                            .background(colors.sageSoft),
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
                             imageVector = Icons.Default.Receipt,
                             contentDescription = null,
-                            tint = Forest,
+                            tint = colors.forest,
                             modifier = Modifier.size(18.dp)
                         )
                     }
@@ -306,12 +311,12 @@ private fun SaleItemCard(
                             text = sale.receiptNo,
                             style = TindaTypography.labelLarge,
                             fontWeight = FontWeight.Bold,
-                            color = Ink
+                            color = colors.ink
                         )
                         Text(
                             text = "${sale.createdAt.take(16).replace("T", " ")} • ${sale.cashier}",
                             style = TindaTypography.bodySmall,
-                            color = Muted
+                            color = colors.muted
                         )
                     }
                 }
@@ -321,7 +326,7 @@ private fun SaleItemCard(
                         text = CurrencyHelper.formatCentavos(sale.total),
                         style = TindaTypography.titleMedium,
                         fontWeight = FontWeight.Bold,
-                        color = Forest
+                        color = colors.forest
                     )
                     Text(
                         text = "+${CurrencyHelper.formatCentavos(sale.estimatedProfit)} profit",
@@ -332,13 +337,13 @@ private fun SaleItemCard(
                 }
             }
 
-            Divider(color = SageSoft, thickness = 1.dp)
+            HorizontalDivider(color = colors.cardBorder, thickness = 1.dp)
 
             val itemsPreview = sale.items.joinToString(", ") { "${it.quantity}x ${it.productName}" }
             Text(
                 text = itemsPreview,
                 style = TindaTypography.bodySmall,
-                color = Ink,
+                color = colors.ink,
                 maxLines = 2
             )
         }
